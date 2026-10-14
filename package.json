@@ -1,0 +1,39 @@
+{
+  "name": "detektive-ai",
+  "version": "1.0.0",
+  "description": "Interactive AI Detective Mystery Game in Telegram powered by GrammY, Prisma, and OpenAI SDK",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": [
+    "telegram-bot",
+    "detective",
+    "ai",
+    "llm",
+    "grammy",
+    "prisma"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grammyjs/conversations": "^2.1.1",
+    "@grammyjs/menu": "^1.5.0",
+    "@prisma/client": "^6.4.1",
+    "dotenv": "^18.0.6",
+    "grammy": "^1.46.0",
+    "openai": "^7.30.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "prisma": "^6.4.1",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,50 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  telegramId  BigInt        @unique
+  username    String?
+  firstName   String?
+  lastName    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  sessions    GameSession[]
+}
+
+model GameSession {
+  id                           String            @id @default(uuid())
+  userId                       Int
+  user                         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  caseId                       String
+  status                       String            @default("ACTIVE") // ACTIVE, SOLVED, FAILED, ABANDONED
+  activeSuspectId              String?           // Suspect currently being interrogated
+  discoveredClues              String            @default("[]") // JSON array of string clue IDs
+  verdictScore                 Int?
+  verdictFeedback              String?
+  accusationCulpritId          String?
+  accusationDetails            String?
+  createdAt                    DateTime          @default(now())
+  updatedAt                    DateTime          @updatedAt
+  messages                     DialogueMessage[]
+
+  @@index([userId, status])
+}
+
+model DialogueMessage {
+  id         Int         @id @default(autoincrement())
+  sessionId  String
+  session    GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  suspectId  String
+  role       String      // "user" (detective) | "assistant" (suspect) | "system"
+  content    String
+  createdAt  DateTime    @default(now())
+
+  @@index([sessionId, suspectId])
+}
